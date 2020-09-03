@@ -10,30 +10,44 @@ GAME RULES:
 */
 
 var scores , roundScore, activePlayer, gamePlaying= true;
+var lastDice;
+var winningScore
 initFunction();
 
 document.querySelector('.btn-roll').addEventListener( 'click' , function(){
 
     if(gamePlaying) {
         //random number
-        var dice = Math.floor(Math.random() * 6) + 1;
+        var dice1 = Math.floor(Math.random() * 6) + 1;
+        var dice2 = Math.floor(Math.random() * 6) + 1;
 
         //Dsiplay the result
-        var diceDOM = document.querySelector('.dice');
-        document.querySelector('.dice').style.display = 'block'; //to make the dice visible when one of the player rolls the dice
-        diceDOM.src = 'dice-'+dice+'.png';
+        document.getElementById('.dice-1').style.display = 'block'; //to make the dice visible when one of the player rolls the dice
+        document.getElementById('.dice-2').style.display = 'block'; //to make the dice visible when one of the player rolls the dice
+       
+        document.getElementById('.dice-1').src = 'dice-'+dice1+'.png';
+        document.getElementById('.dice-2').src = 'dice-'+dice2+'.png';
 
         //update the round score if the rolled number was NOT 1
-        if(dice !== 1){
+        if(dice === 6 && lastDice === 6){
+            scores[activePlayer] = 0;
+            //update the UI
+            document.querySelector('#score-'+activePlayer).textContent = 0;
+            nextPlayer();
+        }
+        else if(dice !== 1){
             //add score
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
         }
+
         else{
             //next player
             nextPlayer();
             
         }
+
+        lastDice = dice;
     }
  
 });
@@ -46,9 +60,19 @@ document.querySelector('.btn-hold').addEventListener('click', function(){ //butt
 
         //update the UI
         document.querySelector('#score-'+activePlayer).textContent = scores[activePlayer];
-    
+        var input = document.querySelector('.final-score').value;
+
+        //undefine , 0 ,null , "" are COERCED to false
+        //anything else is COERCED to true
+        if(input){
+             winningScore = input;
+        }
+        else{
+            winningScore = 100;
+        }
+        
         //check if player win the game
-        if(scores[activePlayer] >= 10 ){
+        if(scores[activePlayer] >= winningScore ){
             document.querySelector('#name-'+ activePlayer).textContent = 'Winner!';
             document.querySelector('.dice').style.display = 'none';
             document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner');
@@ -80,7 +104,9 @@ function nextPlayer() {
         document.querySelector('.player-0-panel').classList.toggle('active'); //toggle class active
         document.querySelector('.player-1-panel').classList.toggle('active'); //toggle class active
 
-        document.querySelector('.dice').style.display = 'none'; //to hide the dice till the next player rolls the dice
+        document.getElementById('.dice-1').style.display = 'none'; //to hide the dice till the next player rolls the dice
+        document.getElementById('.dice-2').style.display = 'none'; //to hide the dice till the next player rolls the dice
+    
 }
 
 //our init function that reset our game
@@ -96,7 +122,8 @@ function initFunction() {
 // var x = document.querySelector('#score-1').textContent; // to read the variable its a getter
 // console.log(x);
 
-document.querySelector('.dice').style.display = 'none'; //using the queryselector to change the css of html element
+document.getElementById('.dice-1').style.display = 'none'; //using the queryselector to change the css of html element
+document.getElementById('.dice-2').style.display = 'none'; //using the queryselector to change the css of html element
 
 document.getElementById('score-0').textContent = '0';
 document.getElementById('score-1').textContent = '0';
