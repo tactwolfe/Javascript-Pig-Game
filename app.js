@@ -87,7 +87,8 @@ document.querySelector('.btn-hold').addEventListener('click', function(){ //butt
         //check if player win the game
         if(scores[activePlayer] >= winningScore ){
             document.querySelector('#name-'+ activePlayer).textContent = 'Winner!';
-            document.querySelector('.dice').style.display = 'none';
+            document.getElementById('dice-1').style.display = 'none'; //to make the dice visible when one of the player rolls the dice
+            document.getElementById('dice-2').style.display = 'none'; //to make the dice visible when one of the player rolls the dice
             document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner');
             document.querySelector('.player-'+activePlayer+'-panel').classList.remove('active');
             gamePlaying = false; 
