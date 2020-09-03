@@ -22,13 +22,24 @@ document.querySelector('.btn-roll').addEventListener( 'click' , function(){
         var dice2 = Math.floor(Math.random() * 6) + 1;
 
         //Dsiplay the result
-        document.getElementById('.dice-1').style.display = 'block'; //to make the dice visible when one of the player rolls the dice
-        document.getElementById('.dice-2').style.display = 'block'; //to make the dice visible when one of the player rolls the dice
+        document.getElementById('dice-1').style.display = 'block'; //to make the dice visible when one of the player rolls the dice
+        document.getElementById('dice-2').style.display = 'block'; //to make the dice visible when one of the player rolls the dice
        
-        document.getElementById('.dice-1').src = 'dice-'+dice1+'.png';
-        document.getElementById('.dice-2').src = 'dice-'+dice2+'.png';
+        document.getElementById('dice-1').src = 'dice-'+dice1+'.png';
+        document.getElementById('dice-2').src = 'dice-'+dice2+'.png';
+        if(dice1 !== 1 && dice2 !== 1){
+            //add score
+            roundScore += dice1 + dice2;
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        }
+
+        else{
+            //next player
+            nextPlayer();
+        }
 
         //update the round score if the rolled number was NOT 1
+        /*
         if(dice === 6 && lastDice === 6){
             scores[activePlayer] = 0;
             //update the UI
@@ -48,6 +59,8 @@ document.querySelector('.btn-roll').addEventListener( 'click' , function(){
         }
 
         lastDice = dice;
+        */
+    
     }
  
 });
@@ -104,8 +117,8 @@ function nextPlayer() {
         document.querySelector('.player-0-panel').classList.toggle('active'); //toggle class active
         document.querySelector('.player-1-panel').classList.toggle('active'); //toggle class active
 
-        document.getElementById('.dice-1').style.display = 'none'; //to hide the dice till the next player rolls the dice
-        document.getElementById('.dice-2').style.display = 'none'; //to hide the dice till the next player rolls the dice
+        document.getElementById('dice-1').style.display = 'none'; //to hide the dice till the next player rolls the dice
+        document.getElementById('dice-2').style.display = 'none'; //to hide the dice till the next player rolls the dice
     
 }
 
@@ -122,8 +135,8 @@ function initFunction() {
 // var x = document.querySelector('#score-1').textContent; // to read the variable its a getter
 // console.log(x);
 
-document.getElementById('.dice-1').style.display = 'none'; //using the queryselector to change the css of html element
-document.getElementById('.dice-2').style.display = 'none'; //using the queryselector to change the css of html element
+document.getElementById('dice-1').style.display = 'none'; //using the queryselector to change the css of html element
+document.getElementById('dice-2').style.display = 'none'; //using the queryselector to change the css of html element
 
 document.getElementById('score-0').textContent = '0';
 document.getElementById('score-1').textContent = '0';
